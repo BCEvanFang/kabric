@@ -53,5 +53,27 @@ async function getClient() {
   return fabric_client;
 }
 
+async function query(fabric_client, channelName, peerUrl, chaincodeId, chaincodeFunc, chaincodeArgs) {
+
+  var channel = fabric_client.newChannel(channelName);
+
+  //var peer = fabric_client.newPeer("grpc://localhost:7051");
+  var peer = fabric_client.newPeer(peerUrl);
+
+  channel.addPeer(peer);
+
+  const request = {
+    //targets : --- letting this default to the peers assigned to the channel
+    chaincodeId: chaincodeId,
+    fcn: chaincodeFunc,
+    args: chaincodeArgs
+  };
+
+  let query_responses = await channel.queryByChaincode(request);
+
+  return query_responses;
+}
+
 exports.getClient = getClient;
 exports.getCAClient = getCAClient;
+exports.query = query;

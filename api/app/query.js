@@ -13,50 +13,30 @@ var path = require("path");
 var util = require("util");
 var os = require("os");
 
+var helper = require("./helper");
+
 async function query() {
-  //
-  var fabric_client = new Fabric_Client();
+  var fabric_client = await helper.getClient();
 
-  // setup the fabric network
-  var channel = fabric_client.newChannel("mychannel");
-  var peer = fabric_client.newPeer("grpc://localhost:7051");
-  channel.addPeer(peer);
+  // Get enrolled user
+  let user = await fabric_client.getUserContext("user1", true);
 
-  //
-  var member_user = null;
-  var store_path = path.join(__dirname, "hfc-key-store");
-  console.log("Store path:" + store_path);
-
-  let state_store = await Fabric_Client.newDefaultKeyValueStore({
-    path: store_path
-  });
-
-  fabric_client.setStateStore(state_store);
-
-  var crypto_suite = Fabric_Client.newCryptoSuite();
-  // use the same location for the state store (where the users' certificate are kept)
-  // and the crypto store (where the users' keys are kept)
-  var crypto_store = Fabric_Client.newCryptoKeyStore({ path: store_path });
-  crypto_suite.setCryptoKeyStore(crypto_store);
-  fabric_client.setCryptoSuite(crypto_suite);
-
-  let user_from_store = await fabric_client.getUserContext("user1", true);
-
-  if (user_from_store && user_from_store.isEnrolled()) {
+  if (user && user.isEnrolled()) {
     console.log("Successfully loaded user1 from persistence");
-    member_user = user_from_store;
+    // member_user = user;
   } else {
     throw new Error("Failed to get user1.... run registerUser.js");
   }
 
-  const request = {
-    //targets : --- letting this default to the peers assigned to the channel
-    chaincodeId: "kcc",
-    fcn: "",
-    args: [""]
-  };
-
-  let query_responses = await channel.queryByChaincode(request);
+  // Query chaincode
+  let query_responses = await helper.query(
+    fabric_client, 
+    "mychannel",  // channel name
+    "grpc://localhost:7051", // peer address
+    "kcc", // chaincode name
+    "", // chaincode function
+    [] // chaincode arguments
+  );
 
   console.log("Query has completed, checking results");
   // query_responses could have more than one  results if there multiple peers were used as targets
