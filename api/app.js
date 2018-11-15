@@ -43,6 +43,6 @@ app.get('/query', async function(req, res) {
 })
 
 app.post('/invoke', async function(req, res) {
-    await invoke.invoke();
-    res.send("ok");
+    var result = await invoke.invoke();
+    res.send(result);
 })
