@@ -1,8 +1,17 @@
+/*
+TODO: Commemnts
+*/
+
 var Fabric_Client = require("fabric-client");
 var Fabric_CA_Client = require("fabric-ca-client");
 
+var path = require("path");
+
+// Identity key store path
+var store_path = path.join(__dirname, "hfc-key-store");
+
 /// Get fabric CA Client
-function getCAClient(store_path) {
+function getCAClient() {
   let crypto_suite = Fabric_Client.newCryptoSuite();
 
   // use the same location for the state store (where the users' certificate are kept)
@@ -24,7 +33,7 @@ function getCAClient(store_path) {
   );
 }
 
-async function getClient(store_path) {
+async function getClient() {
   var fabric_client = new Fabric_Client();
 
   // create the key value store as defined in the fabric-client/config/default.json 'key-value-store' setting

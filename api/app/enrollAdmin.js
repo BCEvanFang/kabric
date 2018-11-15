@@ -7,17 +7,13 @@
 /*
  * Enroll the admin user
  */
-var path = require("path");
 
 var helper = require("./helper");
 
 async function enrollAdmin() {
 
-  var store_path = path.join(__dirname, "hfc-key-store");
-  console.log(" Store path:" + store_path);
-
   // Get fabric client
-  var fabric_client = await helper.getClient(store_path);
+  var fabric_client = await helper.getClient();
 
   // Get admin user
   let admin_user = await fabric_client.getUserContext("admin", true);
@@ -29,7 +25,7 @@ async function enrollAdmin() {
   }
 
   // be sure to change the http to https when the CA is running TLS enabled
-  let fabric_ca_client = helper.getCAClient(store_path);
+  let fabric_ca_client = helper.getCAClient();
 
   // Enroll admin user
   let enrollment = await fabric_ca_client.enroll({

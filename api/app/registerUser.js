@@ -7,24 +7,14 @@
 /*
  * Enroll the admin user
  */
-
-var Fabric_Client = require("fabric-client");
-var Fabric_CA_Client = require("fabric-ca-client");
-
-var path = require("path");
-var util = require("util");
-var os = require("os");
-
 var helper = require("./helper");
 
 async function registerUser() {
 
   var admin_user = null;
   var member_user = null;
-  var store_path = path.join(__dirname, "hfc-key-store");
-  console.log(" Store path:" + store_path);
   
-  var fabric_client = await helper.getClient(store_path)
+  var fabric_client = await helper.getClient()
 
   let user_from_store = await fabric_client.getUserContext("admin", true);
 
@@ -36,8 +26,8 @@ async function registerUser() {
   }
 
   // TODO: 保存secret，以便再次enroll
-  var fabric_ca_client = helper.getCAClient(store_path);
-
+  var fabric_ca_client = helper.getCAClient();
+  
   let secret = await fabric_ca_client.register(
     {
       enrollmentID: "user1",
@@ -46,7 +36,7 @@ async function registerUser() {
     },
     admin_user
   );
-
+  
   console.log("Successfully registered user1 - secret:" + secret);
 
   let enrollment = await fabric_ca_client.enroll({
