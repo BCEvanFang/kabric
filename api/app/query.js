@@ -16,17 +16,7 @@ var os = require("os");
 var helper = require("./helper");
 
 async function query() {
-  var fabric_client = await helper.getClient();
-
-  // Get enrolled user
-  let user = await fabric_client.getUserContext("user1", true);
-
-  if (user && user.isEnrolled()) {
-    console.log("Successfully loaded user1 from persistence");
-    // member_user = user;
-  } else {
-    throw new Error("Failed to get user1.... run registerUser.js");
-  }
+  var fabric_client = await helper.getClient("user1");
 
   // Query chaincode
   let query_responses = await helper.query(
