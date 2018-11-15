@@ -50,13 +50,11 @@ async function getClient(username) {
   crypto_suite.setCryptoKeyStore(crypto_store);
   fabric_client.setCryptoSuite(crypto_suite);
 
+  // If username is passed in, try set identity to fabric client
   if(username) {
-    // Try set user identity to fabric client
     let user = await fabric_client.getUserContext(username, true);
     
-    if (user && user.isEnrolled()) {
-      console.log("Successfully loaded user: ", username);
-    } else {
+    if (!user || !user.isEnrolled()) {
       throw new Error("Failed to get user: ", username);
     }
   }
