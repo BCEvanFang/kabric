@@ -50,3 +50,11 @@
 # 啟動 server
 node app
 ```
+
+測試
+```sh
+curl -s -X POST "http://localhost:4001/enrollAdmin"
+curl -s -X POST "http://localhost:4001/registerUser"
+curl -s -X GET "http://localhost:4001/query"
+curl -s -X POST "http://localhost:4001/invoke"
+```
