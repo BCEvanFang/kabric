@@ -5,6 +5,8 @@
 1. basic-network
 2. scripts
 3. api
+4. chaincode : chaincode / chaincode unit test
+5. chaincode-dev-mode : chaincode dev mode
 
 ---
 
