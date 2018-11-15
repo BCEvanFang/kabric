@@ -32,6 +32,12 @@
 ./startBaiscNetwork.sh
 ```
 
+啟動網路後，可執行以下指令測試chaincode是否有正確安裝及初始化
+```sh
+docker exec -it cli bash
+peer chaincode query -C mychannel -n kcc -c '{"Args":[""]}'
+```
+
 以下四個腳本改寫自官方[fabcar範例](https://github.com/hyperledger/fabric-samples/tree/release-1.3/fabcar)，詳細可參考[Write your first application](https://hyperledger-fabric.readthedocs.io/en/release-1.3/write_first_app.html)
 
 - enrollAdmin.js : 建立admin，必須先執行此腳本
@@ -41,6 +47,11 @@
 
 >記得先執行 `npm install`
 
+補充: 移除所有chaincode image(避免舊的chaincode container一直被docker cache住，而無法安裝新的chaincode)
+```sh
+# 找到所有dev-peer開頭的image，列出其id(-q)，然後執行docker rmi移除之
+docker rmi $(docker images dev-peer* -a -q)
+```
 ---
 
 ## api
