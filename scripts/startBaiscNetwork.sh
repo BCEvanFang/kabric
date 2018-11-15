@@ -12,7 +12,7 @@ export MSYS_NO_PATHCONV=1
 
 starttime=$(date +%s)
 
-CC_SRC_PATH=kabric
+CC_SRC_PATH=chaincode/kabric
 
 # clean the keystore
 rm -rf ./hfc-key-store

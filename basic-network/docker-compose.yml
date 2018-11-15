@@ -116,8 +116,8 @@ services:
     volumes:
         - /var/run/:/host/var/run/
         - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
-        # mount kabric chaincode
-        - $GOPATH/src/kabric:/opt/gopath/src/kabric
+        # mount chaincode folder
+        - ../chaincode:/opt/gopath/src/chaincode
     networks:
         - basic
     #depends_on:
