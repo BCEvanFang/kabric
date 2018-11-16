@@ -43,3 +43,12 @@ peer chaincode invoke -n kcc -c '{"Args":[]}' -C myc
 # Query
 peer chaincode query -n kcc -c '{"Args":[]}' -C myc
 ```
+
+Test Kabric Chaincode
+```sh
+# set
+peer chaincode invoke -n kcc -c '{"Args":["set", "key1", "value1"]}' -C myc
+
+# get
+peer chaincode invoke -n kcc -c '{"Args":["get", "key1"]}' -C myc
+```
