@@ -1,29 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+    />
     <title>Document</title>
-</head>
-<body>
-    <h1>Kabric</h1>
-    <hr>
-    <button class="btn">Get Data From Chaincode</button>
-    <input class="form-control" type="text" value="This is data from chaincode"/>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Kabric Web Site</h1>
+      <hr />
+      <button class="btn">Get Data From Chaincode</button>
+      <hr />
+      <input
+        class="form-control"
+        type="text"
+        value="This is data from chaincode"
+      />
+    </div>
     <script>
-        $(document).ready(function(){
-            $("button").click(function(){
-                $.get("kabric-chain-code").then(function(result) {
-                    console.log(result);
-                    $("input").val(result);
-                }).fail(function(error){
-                    console.error(error);
-                });
+      $(document).ready(function() {
+        $("button").click(function() {
+          $.get("kabric-chaincode")
+            .then(function(result) {
+              console.log(result);
+              if (!result.error) {
+                $("input").val(result.body);
+              } else {
+                $("input").val(JSON.stringify(result.error));
+              }
             })
-        })
+            .fail(function(error) {
+              console.error(error);
+            });
+        });
+      });
     </script>
-</body>
+  </body>
 </html>
