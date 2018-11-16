@@ -68,6 +68,11 @@ node app
 ```sh
 curl -s -X POST "http://localhost:4001/enrollAdmin"
 curl -s -X POST "http://localhost:4001/registerUser"
-curl -s -X GET "http://localhost:4001/get/key1"
 
+# Invoke chaincode "set" function, and set key1 to v1
+curl -s -X POST --header "Content-Type: application/json" -d '{"key":"key1","value":"v1"}' "http://localhost:4001/set"
+
+# Query chaincode "get" function, and get the value of key1
+curl -s -X GET "http://localhost:4001/get/key1"
 ```
+>可搭配Couch DB測試: http://localhost:5984/_utils

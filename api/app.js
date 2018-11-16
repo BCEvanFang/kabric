@@ -52,3 +52,16 @@ app.get('/get/:key', async function(req, res) {
     var result = await query.query("get", [key]);
     res.send(result);
 })
+
+app.post('/set',  async function(req, res) {
+    //
+    var key = req.body.key
+    var value = req.body.value
+    
+    console.log('key: ', key)
+    console.log('value: ', value)
+    
+    var result = await invoke.invoke("set", [key, value]);
+    
+    res.send(result);
+})

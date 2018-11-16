@@ -9,18 +9,25 @@
  */
 var helper = require("./helper");
 
-async function invoke() {
+async function invoke(fcn, args) {
   //
   var fabric_client = await helper.getClient("user1");
 
+  if(!fcn) {
+    fcn = "";
+  }
+  if(!args) {
+    args = []
+  }
+  
   let transactionResults = await helper.invoke(
     fabric_client, 
     "mychannel", // channel name
     "grpc://localhost:7051", // peer
     "grpc://localhost:7050", // orderer
     "kcc", // chaincode name
-    "", // chaincode funciton
-    [] // chaincode arguments
+    fcn, // chaincode funciton
+    args // chaincode arguments
   );
 
   if (transactionResults && transactionResults[0] && transactionResults[0].status === "SUCCESS") {
