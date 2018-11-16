@@ -30,24 +30,17 @@ func (t *SimpleAsset) Invoke(stub shim.ChaincodeStubInterface) peer.Response {
 	var result string
 	var err error
 
-	if fn == "get" {
-
+	switch fn {
+	case "get":
 		result, err = get(stub, args)
-
-	} else if fn == "set" {
-
+	case "set":
 		result, err = set(stub, args)
-
-	} else {
-
+	default:
 		err = fmt.Errorf("Chaincode function not found")
-
 	}
 
 	if err != nil {
-
 		return shim.Error(err.Error())
-
 	}
 
 	return shim.Success([]byte(result))
