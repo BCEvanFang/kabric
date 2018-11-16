@@ -15,29 +15,68 @@
     <div class="container">
       <h1>Kabric Web Site</h1>
       <hr />
-      <button class="btn">Get Data From Chaincode</button>
-      <hr />
-      <input
-        class="form-control"
+
+      <!-- Set value -->
+      Key:<input id="setKeyInput" type="text" /> Value:<input
+        id="setValueInput"
         type="text"
-        value="This is data from chaincode"
       />
+      <button id="btnSet" class="btn btn-primary">Set Data</button>
+      <p id="setResult"></p>
+
+      <hr />
+
+      <!-- Get value -->
+      key:<input id="getKey" type="text" />
+      <button id="btnGet" class="btn btn-primary">Get Data</button>
+      <p id="getResult">Data output here</p>
     </div>
     <script>
       $(document).ready(function() {
-        $("button").click(function() {
-          $.get("kabric-chaincode")
-            .then(function(result) {
-              console.log(result);
-              if (!result.error) {
-                $("input").val(result.body);
-              } else {
-                $("input").val(JSON.stringify(result.error));
-              }
-            })
-            .fail(function(error) {
-              console.error(error);
-            });
+        $("#btnGet").click(function() {
+          //
+          let key = $("#getKey").val();
+          let url = "http://localhost:3001/kabric/get/" + key;
+          $.get(url).then(function(result) {
+            //
+            console.log(result);
+            $("#getResult").text(result.body);
+            if (!result.body) {
+              //
+              $("#getResult").text("DATA NOT FOUND");
+            }
+          });
+        });
+
+        $("#btnSet").click(function() {
+          //
+          $("#setResult").text("");
+          //
+          let key = $("#setKeyInput").val();
+          let value = $("#setValueInput").val();
+          //
+          if (!key) {
+            alert("key cannot be empty");
+            return;
+          }
+          if (!value) {
+            // If value is empty, set to empty string
+            value = "";
+          }
+          //
+          let data = {
+            key: key,
+            value: value
+          };
+          //
+          $.post("http://localhost:3001/kabric/set", data).then(function(result) {
+            console.log(result);
+            if (result.response.statusCode === 200) {
+              $("#setResult").text("Set success");
+            } else {
+              $("#setResult").text("Set fail");
+            }
+          });
         });
       });
     </script>
