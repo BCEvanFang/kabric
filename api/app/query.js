@@ -15,8 +15,16 @@ var os = require("os");
 
 var helper = require("./helper");
 
-async function query() {
+async function query(fcn, args) {
   var fabric_client = await helper.getClient("user1");
+
+  if(!fcn) {
+    fcn = ""
+  }
+
+  if(!args) {
+    args = []
+  }
 
   // Query chaincode
   let query_responses = await helper.query(
@@ -24,8 +32,8 @@ async function query() {
     "mychannel",  // channel name
     "grpc://localhost:7051", // peer address
     "kcc", // chaincode name
-    "", // chaincode function
-    [] // chaincode arguments
+    fcn, // chaincode function
+    args // chaincode arguments
   );
 
   console.log("Query has completed, checking results");

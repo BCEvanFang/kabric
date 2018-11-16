@@ -37,12 +37,18 @@ app.post('/registerUser', async function(req, res) {
 	res.send("done");
 });
 
-app.get('/query', async function(req, res) {
-    var result = await query.query();
-    res.send(result);
-})
+// app.get('/query', async function(req, res) {
+//     var result = await query.query();
+//     res.send(result);
+// })
 
-app.post('/invoke', async function(req, res) {
-    var result = await invoke.invoke();
+// app.post('/invoke', async function(req, res) {
+//     var result = await invoke.invoke();
+//     res.send(result);
+// })
+
+app.get('/get/:key', async function(req, res) {
+    var key = req.params.key
+    var result = await query.query("get", [key]);
     res.send(result);
 })
